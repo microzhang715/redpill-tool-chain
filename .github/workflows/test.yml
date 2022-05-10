@@ -105,6 +105,8 @@ jobs:
           # 调整synoinfo
           sed -i -e 's/"synoinfo": {},/"synoinfo": {\n\t"maxlanport": "2",\n\t"DiskIdxMap": "00",\n\t"SataPortMap": "1",\n\t"SasIdxMap": "0"\n    },/' ${{matrix.platform}}_user_config.json
 
+          # 添加
+
           cat ${{matrix.platform}}_user_config.json
 
       - name: 添加通用驱动
@@ -117,25 +119,25 @@ jobs:
 
           # esxi virtual network
           ./redpill_tool_chain.sh add https://raw.githubusercontent.com/pocopico/rp-ext/master/vmxnet3/rpext-index.json
-          ./redpill_tool_chain.sh add https://raw.githubusercontent.com/pocopico/rp-ext/master/e1000e/rpext-index.json
+          # ./redpill_tool_chain.sh add https://raw.githubusercontent.com/pocopico/rp-ext/master/e1000e/rpext-index.json
 
           # intel network
           ./redpill_tool_chain.sh add https://raw.githubusercontent.com/pocopico/rp-ext/master/igb/rpext-index.json
-          ./redpill_tool_chain.sh add https://raw.githubusercontent.com/pocopico/rp-ext/master/ixgbe/rpext-index.json
+          # ./redpill_tool_chain.sh add https://raw.githubusercontent.com/pocopico/rp-ext/master/ixgbe/rpext-index.json
           
           # sas driver
-          ./redpill_tool_chain.sh add https://raw.githubusercontent.com/pocopico/rp-ext/master/mpt2sas/rpext-index.json
-          ./redpill_tool_chain.sh add https://raw.githubusercontent.com/pocopico/rp-ext/master/mpt3sas/rpext-index.json
-          ./redpill_tool_chain.sh add https://raw.githubusercontent.com/pocopico/rp-ext/master/mptspi/rpext-index.json
+          # ./redpill_tool_chain.sh add https://raw.githubusercontent.com/pocopico/rp-ext/master/mpt2sas/rpext-index.json
+          # ./redpill_tool_chain.sh add https://raw.githubusercontent.com/pocopico/rp-ext/master/mpt3sas/rpext-index.json
+          # ./redpill_tool_chain.sh add https://raw.githubusercontent.com/pocopico/rp-ext/master/mptspi/rpext-index.json
 
           # rt network
-          ./redpill_tool_chain.sh add https://raw.githubusercontent.com/pocopico/rp-ext/master/r8125/rpext-index.json
+          # ./redpill_tool_chain.sh add https://raw.githubusercontent.com/pocopico/rp-ext/master/r8125/rpext-index.json
 
           # vmware scsi
-          ./redpill_tool_chain.sh add https://raw.githubusercontent.com/pocopico/rp-ext/master/vmw_pvscsi/rpext-index.json
+          # ./redpill_tool_chain.sh add https://raw.githubusercontent.com/pocopico/rp-ext/master/vmw_pvscsi/rpext-index.json
 
           # aic94xx
-          ./redpill_tool_chain.sh add https://raw.githubusercontent.com/pocopico/rp-ext/master/aic94xx/rpext-index.json
+          # ./redpill_tool_chain.sh add https://raw.githubusercontent.com/pocopico/rp-ext/master/aic94xx/rpext-index.json
 
 
       - name: 添加扩展驱动
