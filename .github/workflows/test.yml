@@ -36,10 +36,10 @@ jobs:
           # - platform: ds3615xs
           #   version: 7.1.0-42661
 
-          - platform: ds3617xs
-            version: 7.0.1-42218
-          - platform: ds3617xs
-            version: 7.1.0-42661
+          # - platform: ds3617xs
+          #   version: 7.0.1-42218
+          # - platform: ds3617xs
+          #   version: 7.1.0-42661
 
           - platform: ds3622xsp
             version: 7.0.1-42218
@@ -89,6 +89,7 @@ jobs:
           ./redpill_tool_chain.sh build ${{matrix.platform}}-${{matrix.version}}
 
       - name: 配置引导镜像
+        if: matrix.platform == 'ds918p'
         run: |
           cp sample_user_config.json ${{matrix.platform}}_user_config.json
 
@@ -97,16 +98,35 @@ jobs:
 
           # 调整SN和MAC,最好使用 actions secrets 引入,SN应该是固定值不应该每次生成
           sn=`./redpill_tool_chain.sh sn ${{matrix.platform}} | grep 'Serial Number' | awk '{print $3}'`
-          sed -i -e "s/1234XXX123/${sn:="1130LWN123456"}/g" -e 's/XXYYXXYYXXYY/0011323D47F7/g' ${{matrix.platform}}_user_config.json
+          sed -i -e "s/1234XXX123/${sn:="1790PDN023205"}/g" -e 's/XXYYXXYYXXYY/001132241897/g' ${{matrix.platform}}_user_config.json
 
           # 添加第二张网卡mac并设置网卡数量
-          sed -i -e 's/0011323D47F7"/&,\n\t"mac2": "0011323D47F8",\n\t"netif_num": 2/' ${{matrix.platform}}_user_config.json
+          sed -i -e 's/001132241897"/&,\n\t"mac2": "001132241898",\n\t"netif_num": 2/' ${{matrix.platform}}_user_config.json
 
           # 调整synoinfo
-          sed -i -e 's/"synoinfo": {},/"synoinfo": {\n\t"maxlanport": "2",\n\t"DiskIdxMap": "00",\n\t"SataPortMap": "1",\n\t"SasIdxMap": "0"\n    },/' ${{matrix.platform}}_user_config.json
+          sed -i -e 's/"synoinfo": {},/"synoinfo": {\n\t"maxlanport": "2",\n\t"DiskIdxMap": "000208",\n\t"SataPortMap": "164",\n\t"SasIdxMap": "0"\n    },/' ${{matrix.platform}}_user_config.json
 
           # 添加
+          cat ${{matrix.platform}}_user_config.json
+        
+        if: matrix.platform == 'ds3622xsp'
+        run: |
+          cp sample_user_config.json ${{matrix.platform}}_user_config.json
 
+          # 调整VID和PID
+          sed -i -e 's/0x0001/0x88AA/g' -e 's/0x46f4/0x88AA/g' ${{matrix.platform}}_user_config.json
+
+          # 调整SN和MAC,最好使用 actions secrets 引入,SN应该是固定值不应该每次生成
+          sn=`./redpill_tool_chain.sh sn ${{matrix.platform}} | grep 'Serial Number' | awk '{print $3}'`
+          sed -i -e "s/1234XXX123/${sn:="2030SQRWCWRTF"}/g" -e 's/XXYYXXYYXXYY/001132848A45/g' ${{matrix.platform}}_user_config.json
+
+          # 添加第二张网卡mac并设置网卡数量
+          sed -i -e 's/001132848A45"/&,\n\t"mac2": "001132848A46",\n\t"netif_num": 2/' ${{matrix.platform}}_user_config.json
+
+          # 调整synoinfo
+          sed -i -e 's/"synoinfo": {},/"synoinfo": {\n\t"maxlanport": "2",\n\t"DiskIdxMap": "000208",\n\t"SataPortMap": "164",\n\t"SasIdxMap": "0"\n    },/' ${{matrix.platform}}_user_config.json
+
+          # 添加
           cat ${{matrix.platform}}_user_config.json
 
       - name: 添加通用驱动
@@ -131,7 +151,7 @@ jobs:
           # ./redpill_tool_chain.sh add https://raw.githubusercontent.com/pocopico/rp-ext/master/mptspi/rpext-index.json
 
           # rt network
-          # ./redpill_tool_chain.sh add https://raw.githubusercontent.com/pocopico/rp-ext/master/r8125/rpext-index.json
+          ./redpill_tool_chain.sh add https://raw.githubusercontent.com/pocopico/rp-ext/master/r8125/rpext-index.json
 
           # vmware scsi
           # ./redpill_tool_chain.sh add https://raw.githubusercontent.com/pocopico/rp-ext/master/vmw_pvscsi/rpext-index.json
@@ -165,7 +185,7 @@ jobs:
       #     echo 'see https://github.com/jumkey/redpill-load/blob/develop/redpill-dtb/README.md'
 
       - name: 预处理PAT
-        if: endsWith(matrix.version, '42661') && startsWith(matrix.platform, 'ds361')
+        if: endsWith(matrix.version, '42661') #&& startsWith(matrix.platform, 'ds361')
         run: |
           sed -i 's/debian:8-slim/debian:10-slim/g' global_config.json
           ./redpill_tool_chain.sh build ${{matrix.platform}}-${{matrix.version}}
