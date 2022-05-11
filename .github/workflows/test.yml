@@ -104,7 +104,7 @@ jobs:
           sed -i -e 's/001132241897"/&,\n\t"mac2": "001132241898",\n\t"netif_num": 2/' ${{matrix.platform}}_user_config.json
 
           # 调整synoinfo
-          sed -i -e 's/"synoinfo": {},/"synoinfo": {\n\t"maxlanport": "2",\n\t"DiskIdxMap": "000208",\n\t"SataPortMap": "164",\n\t"SasIdxMap": "0"\n    },/' ${{matrix.platform}}_user_config.json
+          sed -i -e 's/"synoinfo": {},/"synoinfo": {\n\t"maxlanport": "2",\n\t"DiskIdxMap": "00",\n\t"SataPortMap": "1",\n\t"SasIdxMap": "0"\n    },/' ${{matrix.platform}}_user_config.json
 
           # 添加
           cat ${{matrix.platform}}_user_config.json
@@ -125,7 +125,7 @@ jobs:
           sed -i -e 's/001132848A45"/&,\n\t"mac2": "001132848A46",\n\t"netif_num": 2/' ${{matrix.platform}}_user_config.json
 
           # 调整synoinfo
-          sed -i -e 's/"synoinfo": {},/"synoinfo": {\n\t"maxlanport": "2",\n\t"DiskIdxMap": "000208",\n\t"SataPortMap": "164",\n\t"SasIdxMap": "0"\n    },/' ${{matrix.platform}}_user_config.json
+          sed -i -e 's/"synoinfo": {},/"synoinfo": {\n\t"maxlanport": "2",\n\t"DiskIdxMap": "00",\n\t"SataPortMap": "1",\n\t"SasIdxMap": "0"\n    },/' ${{matrix.platform}}_user_config.json
 
           # 添加
           cat ${{matrix.platform}}_user_config.json
