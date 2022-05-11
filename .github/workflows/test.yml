@@ -88,7 +88,7 @@ jobs:
         run: |
           ./redpill_tool_chain.sh build ${{matrix.platform}}-${{matrix.version}}
 
-      - name: 配置引导镜像
+      - name: 配置引导镜像DS918
         if: matrix.platform == 'ds918p'
         run: |
           cp sample_user_config.json ${{matrix.platform}}_user_config.json
@@ -108,7 +108,8 @@ jobs:
 
           # 添加
           cat ${{matrix.platform}}_user_config.json
-        
+
+      - name: 配置引导镜像ds3622xsp
         if: matrix.platform == 'ds3622xsp'
         run: |
           cp sample_user_config.json ${{matrix.platform}}_user_config.json
